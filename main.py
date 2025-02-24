@@ -1,7 +1,7 @@
-# main.py
-
 import sys
 import signal
+import threading
+
 import gi
 gi.require_version('Gst', '1.0')
 from gi.repository import Gst
@@ -10,6 +10,9 @@ from queue import Queue
 from decode_thread import DMCDecoderThread
 from user_callback import user_app_callback_class
 from pipeline_code import MyDetectionApp, app_callback
+
+# Import the GUI class
+from gui_display import DecodedGUI
 
 QUEUE_MAXSIZE = 50
 
@@ -34,6 +37,7 @@ def main():
     print("[DEBUG] Creating ROI queue...")
     roi_queue = Queue(maxsize=QUEUE_MAXSIZE)
 
+    # Start the decode thread
     global decoder_thread
     decoder_thread = DMCDecoderThread(roi_queue)
     decoder_thread.start()
@@ -47,9 +51,17 @@ def main():
     global app
     app = MyDetectionApp(app_callback, user_data)
 
+    # -----------------------------
+    # Start the GUI in a background thread
+    # -----------------------------
+    gui = DecodedGUI()
+    gui_thread = threading.Thread(target=gui.run, daemon=True)
+    gui_thread.start()
+    print("[DEBUG] GUI thread started.")
+
     try:
         print("[DEBUG] Running pipeline...")
-        app.run()  
+        app.run()
         print("[DEBUG] Pipeline finished (end of stream?).")
     finally:
         print("[MAIN] Stopping decode thread.")
@@ -60,3 +72,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
