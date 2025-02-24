@@ -26,3 +26,10 @@ python "${SCRIPT_DIR}/main.py" \
   --use-frame
 
 echo "[RUN_APP] Done."
+
+#################################################################################
+## Below is an example Bash script that uses relative paths to activate your virtual environment and run main.py with the specified arguments. 
+## It determines the script’s directory at runtime, then constructs all paths relative to that directory. 
+## This way, you don’t need to hardcode /home/david/DMC_app; it will work as long as everything is placed in (or relative to) the same directory.
+## Make sure this script is in the same top-level folder as your venv_hailo_rpi5_dmc directory, main.py, and resources folder, or adjust the relative paths accordingly.
+#################################################################################
