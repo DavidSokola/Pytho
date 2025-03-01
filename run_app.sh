@@ -19,10 +19,10 @@ source "${SCRIPT_DIR}/venv_hailo_rpi5_dmc/bin/activate"
 
 echo "[RUN_APP] Running main.py with arguments..."
 
-python "${SCRIPT_DIR}/main.py" \
-  --labels-json "${SCRIPT_DIR}/resources/barcode-labels.json" \
-  --hef-path    "${SCRIPT_DIR}/resources/yolov11_model_DMC_c.hef" \
-  --input       "${SCRIPT_DIR}/resources/video.mp4" \
+python "/home/david/DMC_app/main.py" \
+  --labels-json "/home/david/DMC_app/resources/barcode-labels.json" \
+  --hef-path "/home/david/DMC_app/resources/yolov11_model_DMC_c.hef" \
+  --input "rpi" \
   --use-frame
 
 echo "[RUN_APP] Done."
